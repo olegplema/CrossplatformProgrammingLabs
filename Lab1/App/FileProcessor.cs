@@ -58,5 +58,10 @@ public static class FileProcessor
 
         return (frets, tuning, chordsArray[0]);
     }
+
+    public static void writeOutputFile(int possibleWays)
+    {
+        File.WriteAllText(OutputFileName, possibleWays.ToString());
+    }
     
 }
