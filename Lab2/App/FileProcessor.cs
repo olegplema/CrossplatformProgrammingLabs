@@ -48,13 +48,13 @@ public static class FileProcessor
         var matrix = new int[m, n];
         for (var i = 1; i < lines.Length; i++)
         {
-            if (lines[i].Length != n)
+            var row= lines[i]
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (row.Length != n)
             {
                 throw new FileException("Введена кількість стовбців не відповідає заданій кількості");
             }   
-            
-            var row= lines[i]
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             for (var j = 0; j < row.Length; j++)
             {
@@ -68,7 +68,7 @@ public static class FileProcessor
         return (m, n, matrix);
     }
 
-    public static void WriteOutputFile(int[] result, string total)
+    public static void WriteOutputFile(int[] result, int total)
     {
         var resultString = String.Join(" ", result); 
         File.WriteAllText(OutputFileName, $"{resultString}{Environment.NewLine}{total}");
