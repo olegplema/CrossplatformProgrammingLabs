@@ -15,7 +15,15 @@ catch (Exception e)
 
 int[,] prev = new int[m,n], dp = new int[m,n];
 
-MatrixService.FillDpMatrix(dp, prev, matrix);
+try
+{
+    MatrixService.FillDpMatrix(dp, prev, matrix);
+}
+catch (Exception e)
+{
+    Console.WriteLine("Виникла помилка: " + e.Message);
+    return;
+}
 
 var minCostRow = MatrixService.FindMinCostRow(dp);
 var minCost = dp[minCostRow, n - 1];

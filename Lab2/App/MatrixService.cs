@@ -28,8 +28,23 @@ public static class MatrixService
                     dp[i, j] = dp[i + 1, j - 1];
                     prev[i, j] = i + 1;
                 }
-                
-                dp[i, j] += matrix[i, j];
+
+                try
+                {
+                    checked
+                    {
+                        dp[i, j] += matrix[i, j];
+                    }
+
+                    if (dp[i, j] > 536870911 || dp[i, j] < -536870912)
+                    {
+                        throw new OverflowException();
+                    }
+                }
+                catch (OverflowException)
+                {
+                    throw new OverflowException("Вага шляху займає більше 30 біт");
+                }
             }
         }
     } 
