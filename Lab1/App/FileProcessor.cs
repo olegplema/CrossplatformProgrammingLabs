@@ -59,7 +59,7 @@ public static class FileProcessor
         return (frets, tuning, chordsArray[0]);
     }
 
-    public static void writeOutputFile(int possibleWays)
+    public static void WriteOutputFile(int possibleWays)
     {
         File.WriteAllText(OutputFileName, possibleWays.ToString());
     }
