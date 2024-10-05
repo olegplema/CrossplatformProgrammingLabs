@@ -2,14 +2,60 @@ namespace App;
 
 public static class ChordService
 {
-    private static readonly List<string> Notes = new List<string> {
+    private static readonly List<string> Notes = new () {
         "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"
     };
 
-    private static Dictionary<string, string> _enharmonicNotes = new Dictionary<string, string>
+    private static readonly Dictionary<string, string> EnharmonicNotes = new ()
     {
         { "Bb", "A#" }, { "Db", "C#" }, { "Eb", "D#" }, { "Gb", "F#" }, { "Ab", "G#" }
     };
+
+    public static string[] ChangeEnharmonicNotes(string[] notes)
+    {
+        for (var i = 0; i < notes.Length; i++)
+        {
+            if (EnharmonicNotes.ContainsKey(notes[i]))
+            {
+                notes[i] = EnharmonicNotes[notes[i]];
+            }
+        }
+
+        return notes;
+    }
+    
+    public static int CountWaysToPlayChord(string[] tuning, int frets, List<int> chordNotes)
+    {
+        var possibleWays = 1;
+        foreach (var openNote in tuning)
+        {
+            var waysForString = 0;
+            var openNoteIndex = Notes.IndexOf(openNote);
+
+            if (openNoteIndex == -1)
+            {
+                throw new ArgumentException($"Ноти {openNote} не існує");
+            }
+
+            for (var fret = 0; fret <= frets; fret++)
+            {
+                var noteAtFret = (openNoteIndex + fret) % 12;
+                if (chordNotes.Contains(noteAtFret))
+                {
+                    waysForString++;
+                }
+            }
+            
+            if (waysForString == 0)
+            {
+                return 0;
+            }
+
+            possibleWays *= waysForString;
+        }
+
+        return possibleWays;
+    }
 
     public static List<int> GetChordNotes(string chord)
     {
@@ -23,7 +69,12 @@ public static class ChordService
         }
         
         var rootIndex = Notes.IndexOf(rootNote);
-        if (rootIndex == -1) throw new ArgumentException("Невідома нота");
+        
+        if (rootIndex == -1)     
+        {
+            throw new ArgumentException($"Ноти {rootNote} не існує");
+        }
+
 
         var notes = new List<int> { rootIndex };
         
