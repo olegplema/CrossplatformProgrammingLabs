@@ -68,13 +68,17 @@ public static class ChordService
             chordType = chord.Length > 2 ? chord[2..] : "";
         }
         
+        if (EnharmonicNotes.ContainsKey(rootNote))
+        {
+            rootNote = EnharmonicNotes[rootNote];
+        }
+        
         var rootIndex = Notes.IndexOf(rootNote);
         
         if (rootIndex == -1)     
         {
             throw new ArgumentException($"Ноти {rootNote} не існує");
         }
-
 
         var notes = new List<int> { rootIndex };
         
