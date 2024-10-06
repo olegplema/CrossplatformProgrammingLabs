@@ -13,13 +13,10 @@
     </Target>
 
     <Target Name="Test">
-        <Exec Command="dotnet test --logger &quot;console;verbosity=detailed&quot;" WorkingDirectory="$(Solution)" />
+        <Exec Command="dotnet test --logger &quot;console;verbosity=detailed&quot; Tests" WorkingDirectory="$(Solution)" />
     </Target>
 
     <Target Name="Run">
-        <PropertyGroup>
-            <MainProject>App\App.csproj</MainProject>
-        </PropertyGroup>
-        <Exec Command="dotnet run --project &quot;$(MainProject)&quot;" WorkingDirectory="$(Solution)" />
+        <Exec Command="dotnet run --project App" WorkingDirectory="$(Solution)" />
     </Target>
 </Project>
