@@ -18,7 +18,7 @@ List<HashSet<int>> optimalSolutions;
 
 try
 {
-    (minStationsCount, optimalSolutions) = ChanelService.FindOptimalStationSets(n, channels);
+    (minStationsCount, optimalSolutions) = ChannelService.FindOptimalStationSets(n, channels);
 }
 catch (Exception e)
 {

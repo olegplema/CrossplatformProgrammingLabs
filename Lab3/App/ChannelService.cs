@@ -1,6 +1,6 @@
 namespace App;
 
-public static class ChanelService
+public static class ChannelService
 {
     public static (int, List<HashSet<int>>) FindOptimalStationSets(int n, List<(int, int)> channels)
     {
