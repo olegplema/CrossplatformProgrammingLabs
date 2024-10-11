@@ -54,14 +54,27 @@ public static class FileProcessor
             if (row.Length != 2)
             {
                 throw new FileException("В кожному рядку маэ бути 2 числа.");
-            }   
-
+            }
+            
             for (var j = 0; j < row.Length; j++)
             {
                 if (!int.TryParse(row[j], out matrix[i - 1, j]))
                 {
                     throw new FileException("Вcі значення матриці мають бути цілими числами.");
                 }
+            }
+
+            if (matrix[i - 1, 0] < 1)
+            { 
+                throw new FileException("Вcі значення матриці мають бути цілими числами.");
+            }
+            
+            var u = matrix[i - 1, 0];
+            var v = matrix[i - 1, 1];
+
+            if (u < 1 || u > n || v < 1 || v > n || u == v)
+            {
+                throw new FileException($"Некоректний канал зв'язку ({u}, {v})");
             }
         }
         
