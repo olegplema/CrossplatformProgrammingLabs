@@ -19,5 +19,7 @@ dotnet build Build.proj -t:Build -p:Solution=Lab1
 dotnet build Build.proj -t:Test -p:Solution=Lab1
 ```
 
+Щоб запустити лабораторну роботу 2 або 3, просто замініть Lab1 на Lab2 або Lab3 у наведених командах
+
 ## Структура лабораторних робіт
 Кожна лабораторна робота організована в окремій директорії
