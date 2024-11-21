@@ -18,7 +18,7 @@ public class Lab1
         }
         catch (Exception e)
         {
-            return "Виникла помилка: " + e.Message;
+            return "Something went wrong: " + e.Message;
         }
     }
     
@@ -35,7 +35,7 @@ public class Lab1
     {
         if (!File.Exists(inputFileName))
         {
-            throw new FileException($"Файл {inputFileName} не знайдено");
+            throw new FileException($"File {inputFileName} not found");
         }
         
         var lines = File.ReadAllLines(inputFileName)
@@ -45,7 +45,7 @@ public class Lab1
 
         if (lines.Length != 3)
         {
-            throw new FileException("Файл має містити рівно 3 рядки");
+            throw new FileException("The file must contain exactly 3 lines");
         }
         
         var fretsArray = lines[0]
@@ -53,17 +53,17 @@ public class Lab1
 
         if (fretsArray.Length > 1)
         {
-            throw new FileException("Перший рядок має містити лише одне число");
+            throw new FileException("The first line must contain only one number");
         }
 
         if (!int.TryParse(fretsArray[0], out var frets))
         {
-            throw new FileException("Перший рядок має містити ціле число");
+            throw new FileException("The first line must contain an integer");
         }
 
         if (frets < 0 || frets > 9)
         {
-            throw new FileException("Перший рядок має містити число від 0 до 9");
+            throw new FileException("The first line must contain a number between 0 and 9");
         }
         
         var tuning = lines[1]
@@ -71,7 +71,7 @@ public class Lab1
 
         if (tuning.Length != 6)
         {
-            throw new FileException("Другий рядок має містити 6 нот");
+            throw new FileException("The second line must contain 6 notes");
         }
         
         var chordsArray = lines[2].
@@ -79,17 +79,11 @@ public class Lab1
 
         if (chordsArray.Length > 1)
         {
-            throw new FileException("Третій рядок має містити 1 акорд");
+            throw new FileException("The third line must contain 1 chord");
         }
 
         return (frets, tuning, chordsArray[0]);
     }
-
-    private static void WriteOutputFile(string outputFileName, int possibleWays)
-    {
-        File.WriteAllText(outputFileName, possibleWays.ToString());
-    }
-
 
     private static string[] ChangeEnharmonicNotes(string[] notes)
     {
@@ -113,8 +107,8 @@ public class Lab1
             var openNoteIndex = Notes.IndexOf(openNote);
 
             if (openNoteIndex == -1)
-            {
-                throw new ArgumentException($"Ноти {openNote} не існує");
+            { 
+                throw new ArgumentException($"The note {openNote} does not exist");
             }
 
             for (var fret = 0; fret <= frets; fret++)
@@ -157,7 +151,7 @@ public class Lab1
         
         if (rootIndex == -1)     
         {
-            throw new ArgumentException($"Ноти {rootNote} не існує");
+            throw new ArgumentException($"The note {rootNote} does not exist");
         }
 
         var notes = new List<int> { rootIndex };
@@ -189,7 +183,7 @@ public class Lab1
         }
         else
         {
-            throw new ArgumentException("Невідомий тип акорду");
+            throw new ArgumentException("Unknown chord type");
         }
 
         return notes;
