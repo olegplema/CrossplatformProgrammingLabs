@@ -2,11 +2,11 @@ namespace ClassLib;
 
 public class Lab1
 {
-    public static string Execute(string inputPath)
+    public static string Execute(string inputData)
     {
         try
         {
-            var (frets, tuning, chord) = ParseInputFile(inputPath);
+            var (frets, tuning, chord) = ParseInputData(inputData);
 
             tuning = ChangeEnharmonicNotes(tuning);
 
@@ -31,21 +31,21 @@ public class Lab1
         { "Bb", "A#" }, { "Db", "C#" }, { "Eb", "D#" }, { "Gb", "F#" }, { "Ab", "G#" }
     };
     
-    private static (int frets, string[] tuning, string chord) ParseInputFile(string inputFileName)
+    private static (int frets, string[] tuning, string chord) ParseInputData(string inputData)
     {
-        if (!File.Exists(inputFileName))
+        if (inputData.Length == 0)
         {
-            throw new FileException($"File {inputFileName} not found");
+            throw new InputException($"No data provided for input");
         }
         
-        var lines = File.ReadAllLines(inputFileName)
+        var lines = inputData.Split('\n') 
             .Select(static line => line.Trim())
             .Where(static line => !string.IsNullOrWhiteSpace(line))
             .ToArray();
 
         if (lines.Length != 3)
         {
-            throw new FileException("The file must contain exactly 3 lines");
+            throw new InputException("The file must contain exactly 3 lines");
         }
         
         var fretsArray = lines[0]
@@ -53,17 +53,17 @@ public class Lab1
 
         if (fretsArray.Length > 1)
         {
-            throw new FileException("The first line must contain only one number");
+            throw new InputException("The first line must contain only one number");
         }
 
         if (!int.TryParse(fretsArray[0], out var frets))
         {
-            throw new FileException("The first line must contain an integer");
+            throw new InputException("The first line must contain an integer");
         }
 
         if (frets < 0 || frets > 9)
         {
-            throw new FileException("The first line must contain a number between 0 and 9");
+            throw new InputException("The first line must contain a number between 0 and 9");
         }
         
         var tuning = lines[1]
@@ -71,7 +71,7 @@ public class Lab1
 
         if (tuning.Length != 6)
         {
-            throw new FileException("The second line must contain 6 notes");
+            throw new InputException("The second line must contain 6 notes");
         }
         
         var chordsArray = lines[2].
@@ -79,7 +79,7 @@ public class Lab1
 
         if (chordsArray.Length > 1)
         {
-            throw new FileException("The third line must contain 1 chord");
+            throw new InputException("The third line must contain 1 chord");
         }
 
         return (frets, tuning, chordsArray[0]);

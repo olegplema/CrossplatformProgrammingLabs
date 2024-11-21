@@ -2,11 +2,11 @@ namespace ClassLib;
 
 public class Lab3
 {
-    public static string Execute(string inputPath)
+    public static string Execute(string inputData)
     {
         try
         {
-            var (n, channels) = ParseInputFile(inputPath);
+            var (n, channels) = ParseInputData(inputData);
             
             var (minStationsCount, optimalSolutions) = FindOptimalStationSets(n, channels);
             
@@ -21,14 +21,14 @@ public class Lab3
         }
     }
     
-    private static (int, List<(int, int)>) ParseInputFile(string inputPath)
+    private static (int, List<(int, int)>) ParseInputData(string inputData)
     {
-        if (!File.Exists(inputPath))
+        if (inputData.Length == 0)
         {
-            throw new FileException($"The file {inputPath} was not found");
+            throw new InputException($"No data provided for input");
         }
         
-        var lines = File.ReadAllLines(inputPath)
+        var lines = inputData.Split('\n') 
             .Select(static line => line.Trim())
             .Where(static line => !string.IsNullOrWhiteSpace(line))
             .ToArray();
@@ -38,27 +38,27 @@ public class Lab3
         
         if (firstLine.Length != 2)
         {
-            throw new FileException("The first line must contain two numbers");
+            throw new InputException("The first line must contain two numbers");
         }
 
         if (!int.TryParse(firstLine[0], out var n) || !int.TryParse(firstLine[1], out var m))
         {
-            throw new FileException("The first line must contain integer numbers");
+            throw new InputException("The first line must contain integer numbers");
         }
 
         if (n < 2 || n > 18)
         {
-            throw new FileException("The first number must be between 2 and 18");
+            throw new InputException("The first number must be between 2 and 18");
         }
         
         if (m < 0)
         {
-            throw new FileException("The second number must be greater than 0");
+            throw new InputException("The second number must be greater than 0");
         }
 
         if (lines.Length - 1 != m)
         {
-            throw new FileException("The entered number of rows does not match the specified number.");
+            throw new InputException("The entered number of rows does not match the specified number.");
         }
         
         var channels = new List<(int, int)>();
@@ -69,27 +69,27 @@ public class Lab3
 
             if (row.Length != 2)
             {
-                throw new FileException("Each row must contain 2 numbers.");
+                throw new InputException("Each row must contain 2 numbers.");
             }
             
             if (!int.TryParse(row[0], out var u))
             {
-                throw new FileException("All matrix values must be integers.");
+                throw new InputException("All matrix values must be integers.");
             }
                 
             if (!int.TryParse(row[1], out var v))
             {
-                throw new FileException("All matrix values must be integers.");
+                throw new InputException("All matrix values must be integers.");
             }
             
             if (u < 1 || u > n || v < 1 || v > n || u == v)
             {
-                throw new FileException($"Invalid connection channel ({u}, {v})");
+                throw new InputException($"Invalid connection channel ({u}, {v})");
             }
             
             if (channels.Contains((u, v)) || channels.Contains((v, u)))
             {
-                throw new FileException($"The connection ({u}, {v}) already exists.");
+                throw new InputException($"The connection ({u}, {v}) already exists.");
             }
             
             channels.Add((u, v));

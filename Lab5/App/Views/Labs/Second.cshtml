@@ -1,0 +1,25 @@
+@{
+ViewData["Title"] = "Second Lab";
+}
+
+<h2>Second Lab</h2>
+
+<div style="margin-bottom: 20px;">
+    <div>
+        Задано матрицю розміром m×n з цілих чисел. Шлях починається у будь-якому рядку першого стовпця і складається з послідовності кроків, що обриваються в стовпці n. Кожен крок полягає в переході зі стовпця i в стовпець i+1 до сусіднього (по горизонталі або діагоналі) осередку. Вагам шляху називається сума цілих чисел, записаних у кожному з n відвіданих осередків.
+        Потрібно написати програму, яка обчислює шлях із мінімальною вагою з лівого краю матриці до правого.
+        Вхідний текстовий файл INPUT.TXT містить у першому рядку кількість рядків та стовпців матриці, які позначаються m та n відповідно. Далі слідує m рядків по n чисел у кожному. Числа відокремлюються один від одного пробілами. Число рядків не перевищує 10, стовпців – 100. Вага будь-якого шляху не перевищуватиме цілого числа, для зберігання якого потрібно більше 30 біт.    </div>
+    <form asp-action="Second" method="post" style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 500px;">
+        <label for="inputText" style="font-weight: bold;">Введіть вхідні дані:</label>
+        <textarea id="inputText" name="inputText" rows="6" style="padding: 10px; font-family: Arial, sans-serif; resize: vertical;"></textarea>
+        <button type="submit" style="padding: 10px; font-size: 16px; font-weight: bold; cursor: pointer;">Виконати</button>
+    </form>
+</div>
+
+@if (ViewBag.OutputResult != null)
+{
+    <div style="margin-top: 20px;">
+        <h3 style="font-weight: bold;">Результат:</h3>
+        <div style="width: 100%; max-width: 500px; padding: 10px; font-family: Arial, sans-serif;">@ViewBag.OutputResult</div>
+    </div>
+}

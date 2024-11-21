@@ -2,11 +2,11 @@ namespace ClassLib;
 
 public class Lab2
 {
-    public static string Execute(string inputPath)
+    public static string Execute(string inputData)
     {
         try
         {
-            var (m, n, matrix) = ParseInputFile(inputPath);
+            var (m, n, matrix) = ParseInputData(inputData);
 
             int[,] prev = new int[m, n], dp = new int[m, n];
 
@@ -25,14 +25,14 @@ public class Lab2
         }
     }
     
-    private static (int m, int n, int[,] matrix) ParseInputFile(string inputFileName)
+    private static (int m, int n, int[,] matrix) ParseInputData(string inputData)
     {
-        if (!File.Exists(inputFileName))
+        if (inputData.Length == 0)
         {
-            throw new FileException($"File {inputFileName} not found");
+            throw new InputException($"No data provided for input");
         }
         
-        var lines = File.ReadAllLines(inputFileName)
+        var lines = inputData.Split('\n') 
             .Select(static line => line.Trim())
             .Where(static line => !string.IsNullOrWhiteSpace(line))
             .ToArray();
@@ -42,27 +42,27 @@ public class Lab2
 
         if (sizes.Length != 2)
         {
-            throw new FileException("The first line must contain two numbers");
+            throw new InputException("The first line must contain two numbers");
         }
 
         if (!int.TryParse(sizes[0], out var m) || !int.TryParse(sizes[1], out var n))
         {
-            throw new FileException("The first line must contain integers");
+            throw new InputException("The first line must contain integers");
         }
 
         if (m > 10)
         {
-            throw new FileException("The number of lines must not exceed 10");
+            throw new InputException("The number of lines must not exceed 10");
         }
         
         if (n > 100)
         {
-            throw new FileException("The number of columns must not exceed 100");
+            throw new InputException("The number of columns must not exceed 100");
         }
 
         if (lines.Length - 1 != m)
         {
-            throw new FileException("The entered number of rows does not match the expected number");
+            throw new InputException("The entered number of rows does not match the expected number");
         }
 
         var matrix = new int[m, n];
@@ -73,14 +73,14 @@ public class Lab2
 
             if (row.Length != n)
             {
-                throw new FileException("The entered number of columns does not match the expected number");
+                throw new InputException("The entered number of columns does not match the expected number");
             }   
 
             for (var j = 0; j < row.Length; j++)
             {
                 if (!int.TryParse(row[j], out matrix[i - 1, j]))
                 {
-                    throw new FileException("All values in the matrix must be integers");
+                    throw new InputException("All values in the matrix must be integers");
                 }
             }
         }

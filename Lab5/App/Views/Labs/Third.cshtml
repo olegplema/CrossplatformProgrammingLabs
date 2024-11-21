@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Third Lab";
+}
+
+<h2>Third Lab</h2>
+
+<div style="margin-bottom: 20px;">
+    <div>
+        Про це ще ніхто не знає, але багато хто здогадується – мафія вже в місті. Подейкують, що у планах глави мафіозного клану захоплення контролю над усім містом, проте спочатку він вирішив обмежитися захопленням основних ліній зв'язку міста.
+        У місті знаходяться n базові телефонні станції, деякі пари яких з'єднані двосторонніми каналами зв'язку. Для зручності занумеруємо базові станції цілими числами від 1 до n, канал зв'язку в цьому випадку задається парою чисел (u, v) – номерами станцій, які він з'єднує.
+        Говоритимемо, що канал зв'язку (u, v) – контролюється мафією, якщо захоплена, або станція u, або станція v (або обидві).
+        Глава мафіозного клану хоче контролювати всі канали зв'язку, захопивши при цьому якнайменше базових станцій. Ваше завдання допомогти службі безпеки телефонної компанії, склавши можливий план захоплення та визначивши кількість таких планів    </div>
+    <form asp-action="Third" method="post" style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 500px;">
+        <label for="inputText" style="font-weight: bold;">Введіть вхідні дані:</label>
+        <textarea id="inputText" name="inputText" rows="6" style="padding: 10px; font-family: Arial, sans-serif; resize: vertical;"></textarea>
+        <button type="submit" style="padding: 10px; font-size: 16px; font-weight: bold; cursor: pointer;">Виконати</button>
+    </form>
+</div>
+
+@if (ViewBag.OutputResult != null)
+{
+    <div style="margin-top: 20px;">
+        <h3 style="font-weight: bold;">Результат:</h3>
+        <div style="width: 100%; max-width: 500px; padding: 10px; font-family: Arial, sans-serif;">
+            @Html.Raw(ViewBag.OutputResult)
+        </div>
+    </div>
+}

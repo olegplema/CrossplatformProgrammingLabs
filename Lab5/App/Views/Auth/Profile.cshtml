@@ -1,0 +1,10 @@
+@model User
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Profile</h1>
+<h2>@Model.UserMetadata.full_name</h2>
+<p>@Model.Email</p>
+<p>@Model.UserMetadata.username</p>
+<p>@Model.UserMetadata.phone_number</p>
