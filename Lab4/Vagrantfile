@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/jammy64"
+    ubuntu.vm.hostname = "plema-ubuntu-vm"
+    ubuntu.vm.network "private_network", ip: "192.168.56.10"
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = 4
+    end
+
+    ubuntu.vm.provision "shell", run: "always", privileged: false, inline: <<-EOF
+      sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+
+      echo 'export PATH="$PATH:/home/vagrant/.dotnet/tools"' >> /home/vagrant/.bashrc
+      source /home/vagrant/.bashrc
+
+      dotnet nuget add source http://192.168.56.1:5000/v3/index.json -n Baget
+      dotnet tool install --global Oleg_Plema --version 1.0.0
+    EOF
+  end
+
+  config.vm.define "windows" do |windows|
+    windows.vm.box = "gusztavvargadr/windows-10"
+    windows.vm.hostname = "plema-windows-vm"
+    windows.vm.network "private_network", ip: "192.168.56.11"
+    windows.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = 4
+    end
+
+    windows.vm.provision "shell", run: "always", inline: <<-EOF
+      Set-ExecutionPolicy Bypass -Scope Process -Force
+      [System.Net.WebClient]::new().DownloadString('https://chocolatey.org/install.ps1') | Invoke-Expression
+
+      choco install dotnet-8.0-sdk -y
+    EOF
+
+    windows.vm.provision "shell", run: "always", inline: <<-EOF
+      dotnet nuget add source http://192.168.56.1:5000/v3/index.json -n Baget
+      dotnet tool install --global R_Davydchuk --version 1.0.0
+    EOF
+  end
+end
