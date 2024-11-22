@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/jammy64"
+    ubuntu.vm.hostname = "linux"
+    ubuntu.vm.network "forwarded_port", guest: 3000, host: 3000
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = 4
+    end
+
+    ubuntu.vm.provision "shell", run: "always", privileged: false, inline: <<-EOF
+      sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+
+      echo 'export PATH="$PATH:/home/vagrant/.dotnet/tools"' >> /home/vagrant/.bashrc
+      source /home/vagrant/.bashrc
+    EOF
+  end
+end

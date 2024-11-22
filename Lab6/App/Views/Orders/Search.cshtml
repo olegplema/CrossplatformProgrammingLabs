@@ -1,0 +1,46 @@
+@model OrderSearchViewModel
+
+<h1>Search Orders</h1>
+
+<form method="post">
+    <div>
+        <label>Start Date</label>
+        <input type="date" asp-for="StartDate"/>
+    </div>
+    <div>
+        <label>End Date</label>
+        <input type="date" asp-for="EndDate"/>
+    </div>
+    <div>
+        <label>Customer Name</label>
+        <input type="text" asp-for="CustomerName"/>
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.SearchPerformed)
+{
+<h2>Results</h2>
+    <table>
+    <thead>
+    <tr>
+    <th>Order ID</th>
+    <th>Customer Name</th>
+    <th>Date Placed</th>
+    <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Results)
+{
+    <tr>
+        <td>@order.OrderId</td>
+        <td>@order.Customer.FirstName @order.Customer.LastName</td>
+        <td>@order.DateOrderPlaced.ToString("g")</td>
+        <td>@order.OrderStatusCode</td>
+        <td><a asp-action="Details" asp-route-id="@order.OrderId">Details</a></td>
+        </tr>
+}
+</tbody>
+    </table>
+}

@@ -1,0 +1,27 @@
+@model IEnumerable<Shipment>
+
+<h1>Shipments</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Shipment ID</th>
+        <th>Order ID</th>
+        <th>Tracking Number</th>
+        <th>Date Shipped</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var shipment in Model)
+    {
+        <tr>
+            <td>@shipment.ShipmentId</td>
+            <td>@shipment.OrderId</td>
+            <td>@shipment.TrackingNumber</td>
+            <td>@shipment.DateShipped.ToString("g")</td>
+            <td><a href="@Url.Action("Details", "Shipment", new { id = shipment.ShipmentId })">View Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

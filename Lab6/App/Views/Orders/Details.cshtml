@@ -1,0 +1,115 @@
+@model Order
+
+<h1>Order Details</h1>
+
+<p><strong>Order ID:</strong> @Model.OrderId</p>
+<p><strong>Customer:</strong> @Model.Customer.FirstName @Model.Customer.LastName</p>
+<p><strong>Date Placed:</strong> @Model.DateOrderPlaced.ToString("g")</p>
+<p><strong>Date Delivered:</strong> @(Model.DateOrderDelivered == DateTime.MinValue ? "Not Delivered Yet" : Model.DateOrderDelivered.ToString("g"))</p>
+<p><strong>Status:</strong> @Model.OrderStatusCode</p>
+<p><strong>Details:</strong> @Model.OrderDetails</p>
+
+<h2>Order Items</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.OrderItems)
+    {
+        <tr>
+            <td>@item.Product.ProductName</td>
+            <td>@item.OrderItemQuantity</td>
+            <td>@item.OrderItemPrice.ToString("C")</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h2>Shipments</h2>
+@if (Model.Shipments?.Any() == true)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Shipment ID</th>
+                <th>Carrier</th>
+                <th>Tracking Number</th>
+                <th>Date Shipped</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var shipment in Model.Shipments)
+        {
+            <tr>
+                <td>@shipment.ShipmentId</td>
+                
+                <td>@shipment.TrackingNumber</td>
+                <td>@shipment.DateShipped.ToString("g")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No shipments available for this order.</p>
+}
+
+<h2>Invoices</h2>
+@if (Model.Invoices?.Any() == true)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Invoice Status Code</th>
+                <th>Other Details</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var invoice in Model.Invoices)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.InvoiceStatusCode</td>
+                <td>@invoice.OtherDetails</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No invoices available for this order.</p>
+}
+
+<h2>Credit Notes</h2>
+@if (Model.CreditNotes?.Any() == true)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Credit Note ID</th>
+                <th>Credit Note Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var creditNote in Model.CreditNotes)
+        {
+            <tr>
+                <td>@creditNote.CreditNoteId</td>
+                <td>@creditNote.CreditNoteDate</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No credit notes available for this order.</p>
+}

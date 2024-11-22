@@ -1,0 +1,49 @@
+@model ShipmentDetailsViewModel
+
+<h1>Shipment Details</h1>
+
+<p><strong>Shipment ID:</strong> @Model.Shipment.ShipmentId</p>
+<p><strong>Order ID:</strong> @Model.OrderDetails.OrderId</p>
+<p><strong>Tracking Number:</strong> @Model.Shipment.TrackingNumber</p>
+<p><strong>Date Shipped:</strong> @Model.Shipment.DateShipped.ToString("g")</p>
+<p><strong>Other Details:</strong> @Model.Shipment.OtherDetails</p>
+
+<h2>Shipment Items</h2>
+@if (Model.ShipmentItems.Any())
+{
+    <table>
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Credit Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.ShipmentItems)
+        {
+            <tr>
+                <td>@item.OrderItem.Product.ProductName</td>
+                <td>
+                    @if (item.CreditNoteReturnItems.Any())
+                    {
+                        <ul>
+                            @foreach (var creditNote in item.CreditNoteReturnItems)
+                            {
+                                <li>Credit Note ID: @creditNote.CreditNoteReturnItemId</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No Credit Notes</p>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No items found for this shipment.</p>
+}
